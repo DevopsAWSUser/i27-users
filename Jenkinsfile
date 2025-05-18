@@ -121,38 +121,38 @@ pipeline {
             }
         }
 
-        stage('Deploy to Dev') { //5132
+        stage('Deploy to Dev') { //5232
             when {
                 expression { params.deployToDev == 'yes' }
             }
             steps {
                 script {
                     imageValidation().call()
-                    dockerDeploy('dev', '5132', '8132').call()
+                    dockerDeploy('dev', '5232', '8232').call()
                 }
             }
         }
 
-        stage('Deploy to Test') { //6132
+        stage('Deploy to Test') { //6232
             when {
                 expression { params.deployToTest == 'yes' }
             }
             steps {
                 script {
                     imageValidation().call()
-                    dockerDeploy('test', '6132', '8132').call()
+                    dockerDeploy('test', '6232', '8232').call()
                 }
             }
         }
 
-        stage('Deploy to Stage') { //7132
+        stage('Deploy to Stage') { //7232
             when {
                 expression { params.deployToStage == 'yes' }
             }
             steps {
                 script {
                     imageValidation().call()
-                    dockerDeploy('stage', '7132', '8132').call()
+                    dockerDeploy('stage', '7232', '8232').call()
                 }
             }
         }
@@ -176,7 +176,7 @@ pipeline {
                         
                     echo "Valid tag detected: ${env.GIT_BRANCH}. Proceeding with userion deployment."
                     imageValidation().call()
-                    dockerDeploy('prod', '9132', '8132').call()
+                    dockerDeploy('prod', '9232', '8232').call()
                 }
             }
         }
@@ -285,4 +285,4 @@ def dockerBuildandPush() {
   //dev ==> 5232
   //test ==> 6232
   // stage ==> 7232
- // prod ==> 8232
+ // prod ==> 9232
