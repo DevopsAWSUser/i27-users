@@ -1,25 +1,19 @@
-# Instructions
-
-# This is the official image as a base
-FROM openjdk:18
-
-# Create a directory called /opt/i27  in which we store our artifacts or other read only data.
-RUN mkdir -p /opt/i27/
-
-# Setting the working directory to /opt/i27
-WORKDIR /opt/i27/
-
-# Define a build time variable called JAR_SOURCE to specify the path format
+# Dockefile for user , 
+FROM openjdk:18.0.2.1-jdk
+ARG JAR_DEST
+ENV JAR_DEST ${JAR_DEST}
 ARG JAR_SOURCE
-
-COPY ["${JAR_SOURCE}", "/opt/i27/i27-users.jar"]
-
-# Grant permissions to the Workdir 
-RUN chmod 777 /opt/i27/
-
-
-# Expose port 8761 to allow access to application
+ENV JAR_SOURCE ${JAR_SOURCE}
+# certificates, jks, app.properties 
+RUN mkdir -p /opt/i27/
+WORKDIR /opt/i27
+COPY ["${JAR_SOURCE}", "/opt/i27/i27cart-user.jar"]
+# JAR_SOURCE will be passed during the docker build command
+RUN chmod 777 /opt/i27
 EXPOSE 8232
+USER root
+CMD ["java", "-jar", "/opt/i27/i27cart-user.jar"]
 
-# Run the process in the background 
-CMD ["java", "-jar", "/opt/i27/i27-users.jar"]
+# docker run --name usercont -p hp:cp
+# docker run --name usercont -P ====> hp(dynamic) ====> container (fetching from dockerfile)
+# using EXPOSE 
